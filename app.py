@@ -122,4 +122,17 @@ def delete_contact_api(id):
     return '', 204
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001) 
+    app.run(debug=True, port=5001)
+
+    # Test error cases
+def test_invalid_contact_creation(client):
+    data = {
+        'name': 'Invalid User',
+        # Missing required fields
+    }
+    response = client.post('/api/contacts', json=data)
+    assert response.status_code == 400
+
+def test_get_nonexistent_contact(client):
+    response = client.get('/api/contacts/999')
+    assert response.status_code == 404  
